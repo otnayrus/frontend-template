@@ -1,3 +1,5 @@
+import HealthCheck from "@/components/HealthCheck"
+
 export default function Home() {
-  return <div>The website is working fine</div>
+  return <HealthCheck />
 }

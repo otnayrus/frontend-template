@@ -1,5 +1,6 @@
 "use client"
-import { Layout } from "antd"
+import { Layout, Spin } from "antd"
+import { useEffect, useState } from "react"
 const { Header, Footer, Sider, Content } = Layout
 
 const headerStyle: React.CSSProperties = {
@@ -42,16 +43,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
+  const [isContentRendered, setIsContentRendered] = useState(false)
+
+  useEffect(() => {
+    const handleContentRendered = () => setIsContentRendered(true)
+    handleContentRendered()
+  }, [])
+
+  return isContentRendered ? (
     <Layout style={layoutStyle}>
-      <Sider style={siderStyle}>
-        Sider
-      </Sider>
+      <Sider style={siderStyle}>Sider</Sider>
       <Layout>
         <Header style={headerStyle}>Header</Header>
         <Content style={contentStyle}>{children}</Content>
         <Footer style={footerStyle}>Footer</Footer>
       </Layout>
     </Layout>
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+      }}
+    >
+      <Spin tip="Loading..." size="large" />
+    </div>
   )
 }
